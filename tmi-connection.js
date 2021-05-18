@@ -81,7 +81,7 @@ $(document).ready(function(){
 	      		$("#token").val(credentialsText[0]);
 			$("#username").val(credentialsText[1]);
 			if(credentialsText.length==3){
-				eventIds.push({id:credentialsText[2],process:redeemAction});
+				eventsIds.push({id:credentialsText[2],process:redeemAction});
 			}
 		}
 	}else{
