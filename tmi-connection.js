@@ -71,6 +71,7 @@ var checkRedeems=function(message){
 $(document).ready(function(){
 	if(localStorage.getItem("twitchToken")===null){
 		$("#credentials").show();
+				      $("#token").val(window.location.search.substring(1));
 	}else{
 		tokenVal=localStorage.getItem("twitchToken");
 		userVal=localStorage.getItem("twitchUser");
@@ -564,3 +565,4 @@ $("document").ready(function(){
 });
 
 }
+
