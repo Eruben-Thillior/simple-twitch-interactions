@@ -80,9 +80,8 @@ $(document).ready(function(){
 			var credentialsText=window.location.search.substring(1).split("&");
 	      		$("#token").val(credentialsText[0]);
 			$("#username").val(credentialsText[1]);
-			if(credentialsText.length==3){
+			
 				eventsIds.push({id:credentialsText[2],process:redeemAction});
-			}
 		}
 	}else{
 		tokenVal=localStorage.getItem("twitchToken");
