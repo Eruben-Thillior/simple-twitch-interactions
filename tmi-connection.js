@@ -292,6 +292,10 @@ function getChan(channel = '') {
 }
 
 function showMessage({ chan, type, message = '', data = {}, timeout = 0, attribs = {} } = {}) {
+	checkRedeems(data);
+	if(!showMessages){
+		return;	
+	}
   let chatLine_ = document.createElement('div');
   let chatLine = document.createElement('div');
   chatLine_.classList.add('chat-line');
@@ -306,11 +310,6 @@ function showMessage({ chan, type, message = '', data = {}, timeout = 0, attribs
   forEach(key => {
     chatLine_.setAttribute(key, attribs[key]);
   });
-  //if(message=="!capture"
-	
-	console.log(chan,type,message,data,timeout,attribs);
-	
-	checkRedeems(data);
 
   if (type === 'chat') {
     'id' in data && chatLine_.setAttribute('message-id', data.id);
