@@ -6,6 +6,8 @@ var showMessages=true;
 var showRedeems=true;
 var showCommands=true;
 
+var showId=false;
+
 var tokenVal;
 var userVal;
 
@@ -36,7 +38,9 @@ var eventsIds=[
 
 //get redeem event id, if somethings is redeemed without being configured it defualts to this.
 function getEventId(message){
-	alert(message["custom-reward-id"]);
+	if(showId){
+		alert(message["custom-reward-id"]);
+	}
 }
 
 var defaultRedeem=getEventId;
