@@ -36,8 +36,13 @@ var eventsIds=[
 
 ];
 
+var auxEventId="";
+
 //get redeem event id, if somethings is redeemed without being configured it defualts to this.
 function getEventId(message){
+	if(eventsIds.length==0){
+	   	auxEventId=message["custom-reward-id"];
+	   }
 	if(showId){
 		alert(message["custom-reward-id"]);
 	}
@@ -569,3 +574,30 @@ $("document").ready(function(){
 
 }
 
+
+
+function copyToClipBoard (){
+	if(localStorage.getItem("twitchToken")===null&&auxEventId!=""){
+		alert("You need to configure token and user and redeem");
+		return;	
+	}
+	var auxText=$('[rel="canonical"]').attr("href");
+	if(typeof(auxText)==='undefined'){
+		auxText=location.toString();
+	}
+	console.log("auxtext",auxText);
+	auxText=auxText.substring(0,auxText.indexOf("?")).replace("/pen/","/full/");
+	auxText+="?"+localStorage.getItem("twitchToken")+"&"+localStorage.getItem("twitchUser")+"&"+auxEventId;
+	$("#urlFull").val(auxText);
+	var copyText = document.getElementById("urlFull");
+
+  /* Select the text field */
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+
+  /* Alert the copied text */
+  alert("Copied the text: " + copyText.value);
+}
