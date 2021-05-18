@@ -76,7 +76,7 @@ var checkRedeems=function(message){
 $(document).ready(function(){
 	if(localStorage.getItem("twitchToken")===null){
 		$("#credentials").show();
-		if(window.location.search.indexOf("?editors=")!=0&&window.location.search!=""){
+		if(window.location.search.indexOf("?editors=")!=0&&window.location.search.indexOf("?key=index.html")!=0&&window.location.search!=""){
 			var credentialsText=window.location.search.substring(1).split("&");
 	      		$("#token").val(credentialsText[0]);
 			$("#username").val(credentialsText[1]);
