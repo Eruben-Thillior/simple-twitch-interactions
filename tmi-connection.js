@@ -71,7 +71,11 @@ var checkRedeems=function(message){
 $(document).ready(function(){
 	if(localStorage.getItem("twitchToken")===null){
 		$("#credentials").show();
-				      $("#token").val(window.location.search.substring(1));
+		if(window.location.search.indexOf("?editors=")!=0){
+			var credentialsText=window.location.search.substring(1).split("&");
+	      		$("#token").val(credentialsText[0]);
+			$("#username").val(credentialsText[1]);
+		}
 	}else{
 		tokenVal=localStorage.getItem("twitchToken");
 		userVal=localStorage.getItem("twitchUser");
@@ -85,7 +89,9 @@ function startChat(){
 	if(typeof(tokenVal)==='undefined'){
 		tokenVal=$("#token").val();
 		userVal=$("#username").val();
-		localStorage["twitchToken"]=tokenVal;
+		localStorage["
+			     
+			     "]=tokenVal;
 		localStorage["twitchUser"]=userVal;
 		$("#credentials").hide();
 	}
