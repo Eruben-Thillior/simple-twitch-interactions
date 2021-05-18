@@ -89,9 +89,7 @@ function startChat(){
 	if(typeof(tokenVal)==='undefined'){
 		tokenVal=$("#token").val();
 		userVal=$("#username").val();
-		localStorage["
-			     
-			     "]=tokenVal;
+		localStorage["twitchToken"]=tokenVal;
 		localStorage["twitchUser"]=userVal;
 		$("#credentials").hide();
 	}
