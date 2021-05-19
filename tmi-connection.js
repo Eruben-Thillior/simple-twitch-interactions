@@ -1,8 +1,8 @@
+
 /***/
 
 /* Helpful information:
 based on: https://codepen.io/gylidian/pen/NWWzGGg
-
 */
 var showMessages = true;
 var showRedeems = true;
@@ -16,24 +16,16 @@ var tokenVal;
 var userVal;
 var mascotVal;
 
-//Modify or overwrite this for commands
 var checkCommands = function (message) {
 	switch (message.message) {
 		case "!poyo":
-			chat.say(userVal, "poyoyoyoyy?????");
-			$("#messages").prepend(
-				"<div><strong>" +
-					message.tags.displayName +
-					":</strong> " +
-					"poyoyoyoyy?????" +
-					"</div>"
-			);
+			//code for the command
 			break;
-		case "!help":
-		case "!h":
+		case "!helpEru":
+		case "!hEru":
 			alert("help!");
 			break;
-		case "!Alert":
+		case "!AlertEru":
 			alert("alert");
 			break;
 	}
@@ -41,9 +33,9 @@ var checkCommands = function (message) {
 
 function redeemAction() {}
 
-//Add here individual redeems ids. It only allows redeems with text. Configure redeems events in process variable
+//Add here individual redeems ids. It only allows redeems with text. Configure redeems events to dispatch in process variable
 var eventsIds = [
-	//{ id: "da1c99e9-4a1f-4077-bc81-a0fe09224504", process: getEventId },
+	//{ id: "da1c99e9-4a1f-4077-bc81-a0fe09224504", process: 'getEventId' },
 ];
 
 var auxEventId = "";
@@ -65,12 +57,6 @@ function getEventId(message) {
 
 var defaultRedeem = getEventId;
 
-function testEvent() {
-	alert("otra!");
-}
-
-//custom-reward-id
-
 var checkRedeems = function (message) {
 	console.log(message["custom-reward-id"]);
 	if (message.hasOwnProperty("custom-reward-id")) {
@@ -78,10 +64,6 @@ var checkRedeems = function (message) {
 			console.log("firs");
 			console.log(message["custom-reward-id"] == eventsIds[a].id);
 			if (message["custom-reward-id"] == eventsIds[a].id) {
-				//how to get last reward id
-
-				//eventsIds[a].process(message);
-
 				document.dispatchEvent(
 					new CustomEvent(eventsIds[a].process, {
 						bubbles: true,
@@ -102,12 +84,11 @@ $(document).ready(function () {
 		window.location.search != ""
 	) {
 		var credentials = new URLSearchParams(window.location.search);
-		console.log(credentials);
 		tokenVal = credentials.get("token");
 		userVal = credentials.get("user");
 		mascotVal= credentials.get("image");
 
-		$("#resetCredentials").hide();
+		
 		$("#generateURL").hide();
 		$("#copyToClipBoard").hide();
 		eventsIds.push(
@@ -117,23 +98,7 @@ $(document).ready(function () {
 		console.log("cred texts", credentials);
 		startChat();
 	} else {
-		if (localStorage.getItem("twitchToken") === null) {
-			$("#credentials").show();
-		} else {
-			tokenVal = localStorage.getItem("twitchToken");
-			userVal = localStorage.getItem("twitchUser");
-			mascotVal= localStorage.getItem("mascot");
-			if (
-				window.location.search.indexOf("?editors=") != 0 &&
-				window.location.search.indexOf("?key=index.html") != 0 &&
-				window.location.search != ""
-			) {
-				eventsIds.push(
-					{ id: credentials.get("event"), process: "redeemAction" });
-			}
-			startChat();
-		}
-		
+		$("#credentials").show();
 	}
 	
 });
@@ -148,11 +113,7 @@ function startChat() {
 		}else{
 			mascotVal="https://i.imgur.com/MWr6HW8.png";
 		}
-		if (!searchPar) {
-			localStorage["twitchToken"] = tokenVal;
-			localStorage["twitchUser"] = userVal;
-			localStorage["mascot"] = mascotVal;
-		}
+		
 		$("#credentials").hide();
 	}
 	
@@ -177,9 +138,6 @@ function startChat() {
 	const krakenClientID = tokenVal;
 
 	const chatFilters = [
-		// '\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF', // Partial Latin-1 Supplement
-		// '\u0100-\u017F', // Latin Extended-A
-		// '\u0180-\u024F', // Latin Extended-B
 		"\u0250-\u02AF", // IPA Extensions
 		"\u02B0-\u02FF", // Spacing Modifier Letters
 		"\u0300-\u036F", // Combining Diacritical Marks
@@ -192,9 +150,7 @@ function startChat() {
 		"\u2580-\u259F", // Block Elements
 		"\u25A0-\u25FF", // Geometric Shapes
 		"\u2600-\u26FF", // Miscellaneous Symbols
-		// '\u2700-\u27BF', // Dingbats
 		"\u2800-\u28FF" // Braille
-		// '\u2C60-\u2C7F', // Latin Extended-C
 	];
 	const chatFilter = new RegExp(`[${chatFilters.join("")}]`);
 
@@ -211,7 +167,6 @@ function startChat() {
 			}
 		}).then(({ streams }) => {
 			client = new tmi.client({
-				// options: { debug: true },
 				connection: {
 					reconnect: true,
 					secure: true
@@ -219,20 +174,15 @@ function startChat() {
 
 				channels: [userVal]
 			});
-			//channels: streams.map(n => n.channel.name) });
-
 			addListeners();
 			client.connect();
 		});
 	} else {
 		client = new tmi.client({
-			// options: { debug: true },
 			connection: {
 				reconnect: true,
 				secure: true
 			},
-
-			//channels: ['alca']
 			channels: [userVal]
 		});
 
@@ -666,7 +616,7 @@ function startChat() {
 }
 
 function copyToClipBoard() {
-	if (localStorage.getItem("twitchToken") === null || auxEventId == "") {
+	if (tokenVal === null || auxEventId == "") {
 		alert("You need to configure token and user and redeem");
 		return;
 	}
@@ -690,9 +640,9 @@ function copyToClipBoard() {
 
 	auxText +=
 		"?token=" +
-		localStorage.getItem("twitchToken") +
+		tokenVal +
 		"&user=" +
-		localStorage.getItem("twitchUser") +
+		userVal +
 		"&event=" +
 		auxEventId+
 		"&image="+
@@ -700,22 +650,10 @@ function copyToClipBoard() {
 	$("#urlFull").val(auxText);
 	var copyText = document.getElementById("urlFull");
 
-	/* Select the text field */
 	copyText.select();
-	copyText.setSelectionRange(0, 99999); /* For mobile devices */
-
-	/* Copy the text inside the text field */
+	copyText.setSelectionRange(0, 99999);
+	
 	document.execCommand("copy");
-
-	/* Alert the copied text */
+	
 	alert("Copied to clipboard!");
 }
-
-function resetCredentials(){
-	localStorage.clear();
-	alert("Reload page");
-}
-
-
-
-
