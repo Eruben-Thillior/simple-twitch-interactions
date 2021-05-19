@@ -48,3 +48,40 @@ body {
 .message img.emoji {
   width: 20px;
 }
+
+#resetCredentials{
+position:fixed; top:0;right:150px;
+}
+
+#urlFull{
+	display:block;position:fixed;right:-10000000px;
+}
+
+#copyToClipBoard{
+	position:fixed; top:0;right:0;
+	display:none;
+}
+
+#copyToClipBoard,#resetCredentials{
+	padding:20px; background-color:olive; border-radius:10px;
+	cursor:pointer; color:white;
+}
+
+#messageForRedeem{
+	position:fixed;
+	background-color:olive;
+	display:none;
+	padding:30px;
+	width:40%;
+	padding:30px;
+	text-align:center;
+}
+
+#credentials label,#credentials input{display:block;}
+
+#credentials{
+	padding:10px;
+	background-color:rgba(0,0,0,0.5);
+	display:inline-block;
+	max-width:100%;
+}
