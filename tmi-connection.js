@@ -14,6 +14,7 @@ var showId = false;
 
 var tokenVal;
 var userVal;
+var mascotVal;
 
 //Modify or overwrite this for commands
 var checkCommands = function (message) {
@@ -104,6 +105,7 @@ $(document).ready(function () {
 		console.log(credentials);
 		tokenVal = credentials.get("token");
 		userVal = credentials.get("user");
+		mascotVal= credentials.get("image");
 
 		$("#resetCredentials").hide();
 		$("#generateURL").hide();
@@ -120,6 +122,7 @@ $(document).ready(function () {
 		} else {
 			tokenVal = localStorage.getItem("twitchToken");
 			userVal = localStorage.getItem("twitchUser");
+			mascotVal= localStorage.getItem("mascot");
 			if (
 				window.location.search.indexOf("?editors=") != 0 &&
 				window.location.search.indexOf("?key=index.html") != 0 &&
@@ -139,12 +142,21 @@ function startChat() {
 	if (typeof tokenVal === "undefined") {
 		tokenVal = $("#token").val();
 		userVal = $("#username").val();
+		
+		if($("#imageMascot").val()!=""){
+			mascotVal=$("#imageMascot").val();
+		}else{
+			mascotVal="https://i.imgur.com/MWr6HW8.png";
+		}
 		if (!searchPar) {
 			localStorage["twitchToken"] = tokenVal;
 			localStorage["twitchUser"] = userVal;
+			localStorage["mascot"] = mascotVal;
 		}
 		$("#credentials").hide();
 	}
+	
+	$("#mascot").attr("src",mascotVal);
 	
 	if(eventsIds.length==0){
 		$("#messageForRedeem").show();
@@ -669,6 +681,12 @@ function copyToClipBoard() {
 	auxText = auxText.replace("/pen/", "/full/");
 	auxText = auxText.replace("/fullpage/", "/full/");
 	auxText = auxText.replace("https://cdpn.io/", "https://codepen.io/");
+	
+	if($("#imageMascot").val()!=""){
+		imageMascot=$("#imageMascot").val();
+	}else{
+		imageMascot="https://i.imgur.com/MWr6HW8.png";
+	}
 
 	auxText +=
 		"?token=" +
@@ -676,7 +694,9 @@ function copyToClipBoard() {
 		"&user=" +
 		localStorage.getItem("twitchUser") +
 		"&event=" +
-		auxEventId;
+		auxEventId+
+		"&image="+
+		imageMascot;
 	$("#urlFull").val(auxText);
 	var copyText = document.getElementById("urlFull");
 
@@ -695,3 +715,7 @@ function resetCredentials(){
 	localStorage.clear();
 	alert("Reload page");
 }
+
+
+
+
