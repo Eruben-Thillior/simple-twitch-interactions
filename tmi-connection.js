@@ -1,6 +1,4 @@
 
-/***/
-
 /* Helpful information:
 based on: https://codepen.io/gylidian/pen/NWWzGGg
 */
@@ -15,6 +13,7 @@ var showId = false;
 var tokenVal;
 var userVal;
 var mascotVal;
+var chatVal;
 
 var checkCommands = function (message) {
 	switch (message.message) {
@@ -87,7 +86,10 @@ $(document).ready(function () {
 		tokenVal = credentials.get("token");
 		userVal = credentials.get("user");
 		mascotVal= credentials.get("image");
-
+		chatVal=credentials.get("chat");
+		if(chatVal==0){
+			showMessages=false;
+		}
 		
 		$("#generateURL").hide();
 		$("#copyToClipBoard").hide();
@@ -637,6 +639,11 @@ function copyToClipBoard() {
 	}else{
 		imageMascot="https://i.imgur.com/MWr6HW8.png";
 	}
+	
+	chatVal=$('input[name=showChat]:checked').val();
+	if(typeof(chatVal)==='undefined'){
+		chatVal="0";
+	}
 
 	auxText +=
 		"?token=" +
@@ -645,6 +652,8 @@ function copyToClipBoard() {
 		userVal +
 		"&event=" +
 		auxEventId+
+		"&chat="+
+		chatVal+
 		"&image="+
 		imageMascot;
 	$("#urlFull").val(auxText);
@@ -657,3 +666,4 @@ function copyToClipBoard() {
 	
 	alert("Copied to clipboard!");
 }
+
